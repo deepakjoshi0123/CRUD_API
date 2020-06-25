@@ -6,6 +6,7 @@ exports.postAddUser = async(req,res,next) => {
         const message = req.body.message;
         const zipcode = req.body.zipcode;
         const email = req.body.email;
+        console.log(fullname,country,gender,message,zipcode,email);
         try{
             const result = await user.create({
                  fullname: fullname,
@@ -20,32 +21,51 @@ exports.postAddUser = async(req,res,next) => {
                 }
              catch(err ) {
                  console.log(err);
+                 next(err);
              }
     }
-
-exports.putAddUser = async(req,res,next) => {
-        res.json({message : " user upadted sucessfully  "})
-    }
-
+  
 exports.delete = async(req,res,next) => {
-    const id = req.params.id;
+    const id = req.body.id; 
+    console.log(id)
     try{
     const result =await  user.destroy({
         where: { id: id }
     })
         console.log("product deleted");
-        res.json({ msg: "prodcut deleted" })
+        res.json({ msg: "prodcut deleted" }) 
       }
     catch(err ) {
-    console.log(error);
-    next(error);
+    next(err);
     }
   } 
 
-exports.showAll = (req,res,next) => {
-        res.json({message : " check all users  "})
+exports.showAll = async(req,res,next) => {
+        const start = req.params.start;
+       try{
+        const users =await user.findAll({
+            offset: 0,
+            limit: 10
+        })
+                res.json({ users: users })
     }
+      catch(error)
+      {
+        next(error);
+      }
+    }
+    
+exports.search = async(req,res,next) => {
+    const email = req.body.email;
+    try{
+   const result = await user.findAll({ where: { email: email } })
+       .then(result => {
+           res.json({ user: result })
+       })
+     }
+         catch(err) {
+           next(err);
+       }
+}
 
-exports.search = (req,res,next) => {
-        res.json({message : "searching .........  "})
-    }
+    
