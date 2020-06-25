@@ -34,7 +34,10 @@ const user = sequelize.define('user', {
         type: Sequelize.STRING,
         allowNull: false
     },
-
+    check:{
+        type: Sequelize.STRING,
+        allowNull: false
+    }
 });
 
 module.exports = user;

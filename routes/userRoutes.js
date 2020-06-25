@@ -8,5 +8,6 @@ router.post('/create',userCtrl.postAddUser)
 router.delete('/del',userCtrl.delete)
 router.get('/showAll',userCtrl.showAll)
 router.get('/search',userCtrl.search)
+router.post('/update',userCtrl.update)
 
 module.exports = router ; 
